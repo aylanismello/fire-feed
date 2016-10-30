@@ -1,0 +1,33 @@
+{
+  "name": "fire-api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon index.js --exec babel-node --presets es2015,stage-2"
+  },
+  "dependencies": {
+    "babel-register": "^6.18.0",
+    "body-parser": "~1.15.1",
+    "child_process": "^1.0.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "dotenv": "^2.0.0",
+    "express": "~4.13.4",
+    "jade": "~1.11.0",
+    "morgan": "~1.7.0",
+    "pg": "^6.1.0",
+    "pg-hstore": "^2.3.2",
+    "request": "^2.76.0",
+    "sequelize": "^3.24.6",
+    "serve-favicon": "~2.3.0",
+    "soundcloud": "^3.1.2",
+    "sys": "0.0.1",
+    "youtube-audio-stream": "0.0.28"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-2": "^6.18.0",
+    "nodemon": "^1.11.0"
+  }
+}

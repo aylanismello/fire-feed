@@ -1,0 +1,27 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    dotenv (2.1.1)
+    hashie (3.4.6)
+    httmultiparty (0.3.16)
+      httparty (>= 0.7.3)
+      mimemagic
+      multipart-post
+    httparty (0.14.0)
+      multi_xml (>= 0.5.2)
+    mimemagic (0.3.2)
+    multi_xml (0.5.5)
+    multipart-post (2.0.0)
+    soundcloud (0.3.4)
+      hashie
+      httmultiparty (~> 0.3.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  dotenv
+  soundcloud
+
+BUNDLED WITH
+   1.12.5
