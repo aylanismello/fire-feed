@@ -26,34 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', routes);
-const update = new Updater();
 
-update.getSoundcloudIds(curators => {
-  console.log(`${curators} is the shit`);
-
-  curators.forEach(curator => {
-
-    models.Curator.findOne({where: {soundcloud_id: curator.soundcloud_id}})
-      .then(isCurator => {
-        if (!isCurator) {
-          console.log('creating new curator');
-          models.Curator.create({
-            title: curator.name,
-            soundcloud_id: curator.soundcloud_id
-          })
-          .then(createdCurator => {
-            console.log(createdCurator);
-          });
-
-        }
-      });
-
-
-
-
-
-  });
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

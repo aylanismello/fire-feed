@@ -6,17 +6,18 @@ class Updater {
 	constructor() {
 		this.curatorsJson = JSON.parse(fs.readFileSync('curators.json'), 'utf8');
 		this.terminalCount = this.curatorsJson.labels.length;
-		console.log(`number of labels is ${this.terminalCount}`);
+		// console.log(`number of labels is ${this.terminalCount}`);
 		this.curators = [];
-
 		this.count = 0;
 
 	}
 
+	getTracks(cb) {
 
+	}
 
  nameToId(name, cb) {
-	exec('ruby soundcloud.rb', (error, stdout, stderr) => {
+	exec(`ruby soundcloud.rb ${name}`, (error, stdout, stderr) => {
 
 		let id = parseInt(stdout);
 
@@ -37,13 +38,10 @@ class Updater {
 }
 
 getSoundcloudIds(cb) {
-
 	this.curatorsJson.labels.forEach(label => {
 		this.nameToId(label, cb);
 	});
 }
-
-
 
 
 // should end up as
@@ -52,7 +50,6 @@ getSoundcloudIds(cb) {
 
 // just initialize all these into database
 // do not initialize if item is already in db. this is for NEW curators.
-
 
 }
 
