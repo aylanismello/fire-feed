@@ -59,10 +59,12 @@ class FireFeeder {
         .then(createdPublisher => {
 
           console.log(`created ${createdPublisher}`);
-          finishedSavingTrackCB();
+          // finishedSavingTrackCB();
+          console.log(`now trying to create track ${track.title}`);
+          this.addTrackToDB(track, createdPublisher.id, finishedSavingTrackCB, track_type);
 
-          // console.log(`now trying to create track`);
 
+          //
           // let newTrack = models.Track.build({
           //   name: track.title,
           //   soundcloud_id: track.id,
@@ -96,7 +98,34 @@ class FireFeeder {
 
   }
 
-  addTrackToDB(track, publisherId) {
+  addTrackToDB(track, publisherId, finishedSavingTrackCB, track_type) {
+
+    let newTrack = models.Track.build({
+      name: track.title,
+      soundcloud_id: track.id,
+      artwork_url: track.artwork_url,
+      created_at_external: new Date(track.created_at),
+      CuratorId: 1010,
+      PublisherId: publisherId,
+      duration: track.duration,
+      track_type,
+      playback_count: track.playback_count,
+      likes_count: track.likes_count,
+      purchase_url: track.purchase_url,
+      permalink_url: track.permalink_url
+    });
+
+    newTrack.save()
+      .then(() => {
+        console.log('succeeded in making track!');
+        finishedSavingTrackCB();
+      })
+      .catch(err => {
+        console.log(`messed up creating track. ${err}`);
+        finishedSavingTrackCB();
+      });
+
+
 
   }
 
@@ -130,18 +159,13 @@ class FireFeeder {
       .then(existingPublisher => {
 
         if(existingPublisher) {
-          console.log('publisher already exists. dope');
-          finishedSavingTrackCB();
-
-
+          this.addTrackToDB(track, existingPublisher.id, finishedSavingTrackCB, track_type);
+          // finishedSavingTrackCB();
         } else { //PUBLISHER DOES NOT EXIST
 
           this.addPublisherToDB(user.id, track, track_type, finishedSavingTrackCB);
           // this.getUser(user.id, makePublisher);
-
         }
-
-
 
       })
       .catch(err => {
