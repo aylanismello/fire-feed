@@ -38,7 +38,7 @@ class FireFeeder {
 
 
 
-  addPublisherToDB(userId, track, track_type) {
+  addPublisherToDB(userId, track, track_type, finishedSavingTrackCB) {
 
     const makePublisher = (userObj) => {
       console.log(`publisher don't exist for ${track.title}. creating with ${userObj.id}`);
@@ -59,6 +59,8 @@ class FireFeeder {
         .then(createdPublisher => {
 
           console.log(`created ${createdPublisher}`);
+          finishedSavingTrackCB();
+
           // console.log(`now trying to create track`);
 
           // let newTrack = models.Track.build({
@@ -86,6 +88,7 @@ class FireFeeder {
         })
         .catch(err => {
           console.log(`Messed up creating publisher!! ${err}\n`);
+          finishedSavingTrackCB();
         });
     };
 
@@ -128,16 +131,16 @@ class FireFeeder {
 
         if(existingPublisher) {
           console.log('publisher already exists. dope');
+          finishedSavingTrackCB();
 
 
         } else { //PUBLISHER DOES NOT EXIST
 
-          this.addPublisherToDB(user.id, track, track_type);
+          this.addPublisherToDB(user.id, track, track_type, finishedSavingTrackCB);
           // this.getUser(user.id, makePublisher);
 
         }
 
-        finishedSavingTrackCB();
 
 
       })
