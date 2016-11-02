@@ -85,7 +85,7 @@ class FireFeeder {
 
         })
         .catch(err => {
-          console.log(`messed up creating publisher. ${err}`);
+          console.log(`Messed up creating publisher!! ${err}\n`);
         });
     };
 
@@ -231,7 +231,7 @@ class FireFeeder {
         // sdObj.collection.forEach(track => this.createTrackAndStuff(track, userId));
 
 
-        async.forEach(sdObj.collection, (track, finishedSavingTrackCB) => {
+        async.eachOfSeries(sdObj.collection, (track, idx, finishedSavingTrackCB) => {
 
 
           this.createTrackAndStuff(track, userId, finishedSavingTrackCB);
@@ -239,7 +239,7 @@ class FireFeeder {
         }, err => {
           // if (err) return console.log(`messed up making track ${err}`);
           console.log('reached end of this page, in async forEach');
-          // paginate();
+          paginate();
         });
 
 
