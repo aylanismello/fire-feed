@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Curator.hasMany(models.Track, {as: 'tracks'});
+
       }
     }
   });

@@ -32,7 +32,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Publisher.hasMany(models.Track, {as: 'tracks'});
+        Publisher.hasMany(models.Track, {as: 'tracks', onDelete: 'CASCADE'});
       }
     }
   });

@@ -18,10 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false
     },
-    CuratorId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     duration: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -48,15 +44,9 @@ module.exports = (sequelize, DataTypes) => {
   {
     classMethods: {
       associate: function(models) {
-        Track.belongsTo(models.Curator, {
-          onDelete: 'CASCADE',
-          foreignKey: {
-            allowNull: false
-          }
-        });
+      
 
         Track.belongsTo(models.Publisher, {
-          onDelete: 'CASCADE',
           foreignKey: {
             allowNull: false
           }

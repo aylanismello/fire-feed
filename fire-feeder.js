@@ -57,35 +57,9 @@ class FireFeeder {
 
       newPublisher.save()
         .then(createdPublisher => {
-
           console.log(`created ${createdPublisher}`);
-          // finishedSavingTrackCB();
           console.log(`now trying to create track ${track.title}`);
           this.addTrackToDB(track, createdPublisher.id, finishedSavingTrackCB, track_type);
-
-
-          //
-          // let newTrack = models.Track.build({
-          //   name: track.title,
-          //   soundcloud_id: track.id,
-          //   artwork_url: track.artwork_url,
-          //   created_at_external: new Date(track.created_at),
-          //   CuratorId: 1,
-          //   PublisherId: createdPublisher.id,
-          //   duration: track.duration,
-          //   track_type,
-          //   playback_count: track.playback_count,
-          //   likes_count: track.likes_count,
-          //   purchase_url: track.purchase_url,
-          //   permalink_url: track.permalink_url
-          // });
-          //
-          // newTrack.save()
-          //   .then(() => console.log('succeeded in making track!'))
-          //   .catch(err => {
-          //     console.log(`messed up creating track. ${err}`);
-          //   });
-
 
         })
         .catch(err => {
@@ -100,39 +74,53 @@ class FireFeeder {
 
   addTrackToDB(track, publisherId, finishedSavingTrackCB, track_type) {
 
-    let newTrack = models.Track.build({
-      name: track.title,
-      soundcloud_id: track.id,
-      artwork_url: track.artwork_url,
-      created_at_external: new Date(track.created_at),
-      CuratorId: 1010,
-      PublisherId: publisherId,
-      duration: track.duration,
-      track_type,
-      playback_count: track.playback_count,
-      likes_count: track.likes_count,
-      purchase_url: track.purchase_url,
-      permalink_url: track.permalink_url
-    });
 
-    newTrack.save()
-      .then(() => {
-        console.log('succeeded in making track!');
-        finishedSavingTrackCB();
+    console.log(`looking up ${track.id}`);
+    models.Track.findOne({where: {soundcloud_id: track.id}})
+      .then(prexistingTrack => {
+        if(prexistingTrack) {
+          console.log('track already exists! we can do other things!');
+          finishedSavingTrackCB();
+        } else {
+
+          let newTrack = models.Track.build({
+            name: track.title,
+            soundcloud_id: track.id,
+            artwork_url: track.artwork_url,
+            created_at_external: new Date(track.created_at),
+            PublisherId: publisherId,
+            duration: track.duration,
+            track_type,
+            playback_count: track.playback_count,
+            likes_count: track.likes_count,
+            purchase_url: track.purchase_url,
+            permalink_url: track.permalink_url
+          });
+
+
+          newTrack.save()
+            .then(() => {
+              console.log('succeeded in making track!');
+              finishedSavingTrackCB();
+            })
+            .catch(err => {
+              console.log(`messed up creating track. ${err}`);
+              finishedSavingTrackCB();
+            });
+
+        }
+
       })
       .catch(err => {
-        console.log(`messed up creating track. ${err}`);
+        console.log(`failed finding track ${err}`);
         finishedSavingTrackCB();
-      });
 
+      });
 
 
   }
 
   createTrackAndStuff(trackObj, curatorId, finishedSavingTrackCB) {
-
-
-
 
     if (trackObj.type.includes('playlist') || !trackObj.track.streamable){
       finishedSavingTrackCB();
@@ -419,7 +407,8 @@ class FireFeeder {
 
     }, err => {
       if (err) return console.log(err);
-      console.log('finished with all shit');
+      console.log('finished with curators creation');
+      this.initTracks();
     });
 
   }
@@ -429,6 +418,6 @@ class FireFeeder {
 }
 
 const feeder = new FireFeeder();
-// feeder.asyncFun();
-feeder.initTracks();
+feeder.asyncFun();
+// feeder.initTracks();
 // feeder.initCurators();

@@ -2,7 +2,7 @@
 module.exports = function(sequelize, DataTypes) {
 
 
-  var CuratorTrack = sequelize.define('CuratorTrack', {
+  var Selection = sequelize.define('Selection', {
 		CuratorId: {
 			type: DataTypes.INTEGER,
 			allowNull: false
@@ -15,9 +15,10 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        CuratorTrack.hasMany(models.Track, {as: 'tracks'});
+        // Selection.hasMany(models.Track, {as: 'tracks'});
+        // Selection.hasMany(models.Curator, {as: 'curators'});
       }
     }
   });
-  return CuratorTrack;
+  return Selection;
 };
