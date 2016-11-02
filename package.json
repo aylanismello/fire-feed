@@ -5,9 +5,12 @@
   "scripts": {
     "start": "babel-node bin/www --presets es2015,stage-2",
     "start2": "nodemon index.js --exec babel-node --presets es2015,stage-2",
-    "feeder": "babel-node --presets es2015 -- fire-feeder.js"
+    "feeder": "babel-node --presets es2015 -- fire-feeder.js",
+    "feeder-debug": "babel-node debug --presets es2015 -- fire-feeder.js --out-file compiler.js --source-maps"
   },
   "dependencies": {
+    "asyncawait": "^1.0.6",
+    "await": "^0.2.6",
     "babel-register": "^6.18.0",
     "body-parser": "~1.15.1",
     "child_process": "^1.0.2",

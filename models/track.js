@@ -42,20 +42,20 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    purchase_url: DataTypes.STRING,
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    user_avatar_url: DataTypes.STRING,
-    user_country_code: DataTypes.STRING,
-    user_city: DataTypes.STRING
+    purchase_url: DataTypes.STRING
 
   },
   {
     classMethods: {
       associate: function(models) {
         Track.belongsTo(models.Curator, {
+          onDelete: 'CASCADE',
+          foreignKey: {
+            allowNull: false
+          }
+        });
+
+        Track.belongsTo(models.Publisher, {
           onDelete: 'CASCADE',
           foreignKey: {
             allowNull: false
